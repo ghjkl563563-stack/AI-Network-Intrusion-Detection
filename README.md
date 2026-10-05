@@ -60,3 +60,13 @@ Python 3.10+，`pip install -r requirements.txt`。
 - 已公開的相關程式與結果透過 [PR #2](https://github.com/Aaaaaaalbert/AI-Network-Intrusion-Detection/pull/2) 合併至 `main`，五筆研究提交均以陳冠庭署名。
 
 公開內容包含[六組消融結果](results/tanet_split_ablation/comparison.md)、[保留跨切分重疊的 bootstrap 說明](docs/bootstrap_overlap_note.md)與[多 seed 結果](results/tanet_multiseed/runs.csv)。上述研究分工已由共同作者確認。
+
+### 研究結果摘要
+
+| 項目 | 內容 | 主要結果 | 資料 |
+| --- | --- | --- | --- |
+| 六組消融實驗 | 隨機分層、類別內時間兩種切分，各搭配全特徵、移除 Port、移除 TCP 初始視窗，共六組 Random Forest | 移除 Port：隨機切分 Macro F1 下降 4.60 個百分點，時間切分反而上升 5.10 個百分點；移除 TCP 初始視窗在兩種切分下都接近 0（−0.17、+0.22） | [六組結果](results/tanet_split_ablation/comparison.md) |
+| bootstrap 分析 | 測試集重抽 10,000 次；同一切分內配對重抽，跨切分在兩測試集聯集上聯合重抽，保留 113,076 筆重疊 | 移除 Port 的切分間交互作用為 −9.70 個百分點，95% 信賴區間 [−13.55, −5.15]，不含 0 | [信賴區間](results/tanet_split_ablation/bootstrap_ci.csv)、[方法說明](docs/bootstrap_overlap_note.md) |
+| 多 seed 實驗 | 固定切分，seed 42、43、44，比較全特徵與移除 Port | 交互作用平均 −10.69 ± 1.17 個百分點，三個 seed 全部為負（−11.98 至 −9.70） | [多 seed 結果](results/tanet_multiseed/runs.csv) |
+
+信賴區間只涵蓋測試集抽樣變異，不包含同場景流量的相關與切分本身的變動；± 為三個 seed 的樣本標準差。
